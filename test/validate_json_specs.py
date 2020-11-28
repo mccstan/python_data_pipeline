@@ -35,7 +35,7 @@ class ValidateJsonSpecs(unittest.TestCase):
                 "spark-submit",
                 "--conf", "spark.sql.shuffle.partitions=1",
                 "../src/utils/validate_json.py",
-                "--input-file", self.INPUT_FILE, #modified
+                "--input-file", self.INPUT_FILE,
                 "--output-path", self.OUTPUT_FILE
             ],
             stderr=subprocess.DEVNULL,
