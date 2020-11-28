@@ -12,7 +12,7 @@ A python data pipeline for data engineering
 ## II. SQL
 
 ### DDL
-Les requêtes SQL dans la suite ont été écrites pour fonctionner dans le moteur de base de données relationelles MySQL.
+Les requêtes SQL dans la suite ont été écrites pour fonctionner dans le moteur de base de données relationelles MySQL(MySQL v5.7).
 Elles sont pensées avec simplicité pour s'adapter à la plus part des moteurs d'exécution avec des adaptations.
 Ces requêtes peuvent être testées par ici https://www.db-fiddle.com/ en utilisant le DDL suivant.
 
@@ -58,6 +58,17 @@ SELECT date, SUM(prod_price) AS ventes FROM transactions
     GROUP BY date   
 ```
 
+Exemple de résultat sur la base de l'échantillon dans la partie DDL
+
+---
+| date       | ventes |
+| ---------- | ------ |
+| 2019-01-01 | 10.00  |
+| 2019-01-03 | 134.00 |
+| 2019-02-08 | 100.00 |
+| 2019-05-03 | 10.00  |
+| 2019-12-31 | 100.00 |
+---
 
 ### Les ventes meuble et déco réaliséesles ventes meuble et déco réalisées par client et sur la période allant du 1er janvier 2020 au 31 décembre 2020.
 ```sql
@@ -78,3 +89,17 @@ SELECT clients.client_id, COALESCE(ventes_meubles, 0) AS ventes_meuble, COALESCE
     GROUP BY client_id) AS ventes_deco_table
     ON clients.client_id = ventes_deco_table.client_id;
 ```
+
+Exemple de résultat sur la base de l'échantillon dans la partie DDL
+
+---
+| client_id | ventes_meuble | ventes_deco |
+| --------- | ------------- | ----------- |
+| 990       | 0.00          | 979.12      |
+| 999       | 50.00         | 36.56       |
+| 845       | 50.00         | 0.00        |
+| 846       | 0.00          | 0.00        |
+| 847       | 0.00          | 0.00        |
+| 848       | 0.00          | 0.00        |
+| 849       | 0.00          | 0.00        |
+---
