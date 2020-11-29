@@ -2,14 +2,111 @@
 A python data pipeline for data engineering
 
 ## I.Python et Data Engineering
-Structure du projet
 
+Le code source du projet est localisé sous `src`, les tests sous `test` les données sous `data`. 
+* `src/drugs_pipeline.py` : Pipeline de calcul du graphe de dépendance.
+* `src/drugs_analytics.py` : Traitement ad-hoc pour calculer le journal avec le plus de références de médicaments.
+* `src/utils/*.py` : Routines de traitements utilisés dans les pipelines.
+* `test/*.py` : Des tests qui valident les pipelines developées.
+
+Plusieurs modélisations étaient envisageables pour le graphe de dépendance. 
+Nous avons choisi un modèle plat basé sur les drugs et leur références.
+Chaque ligne représente un `drug`, sa référencce éventuelle vers une publication de type `pubmed` ou `clinical trial`, 
+les journaux dans lesquels cette publication est apparue ainsi que la date de publication.
+Il a fallut faire quelques réajustement : 
+    * Unification des colonnes `scientific_title`(clinical_trials) et `title`(pubmed)
+    * Ajout d'une nouvelle colonne `type` avec les valeurs `pubmed` and `clinical trials`
+
+Pourquoi ce choix de modélisation ?
+* La simplicité : Notre modélisation est simple à cerner et permet rapidement de jouer avec la données et produire des insights.
+* La performance : Il y'a toujours des compromis dans les choix de modélisation. 
+Cela dit, on choisi la modélisation qui permet d'optimisier les requêtes/traitements qui se feront sur la base de cette modélisation.
+Dans le cas présent, le traitement demandé dans la partie ad-
 
 ### Data pipeline
 
-### Traitement ad-hoc
+Résultat de la pipeline basé sur les échantillons fournis
 
+---
+|atccode|drug           |id         |title                                                                                                                                                                 |journal                                                    |type           |reference_date          |
+|-------|---------------|-----------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------|-----------------------------------------------------------|---------------|------------------------|
+|A04AD  |DIPHENHYDRAMINE|1          |A 44-year-old man with erythema of the face diphenhydramine, neck, and chest, weakness, and palpitations                                                              |Journal of emergency nursing                               |pubmed         |2019-01-01T00:00:00.000Z|
+|A04AD  |DIPHENHYDRAMINE|2          |An evaluation of benadryl, pyribenzamine, and other so-called diphenhydramine antihistaminic drugs in the treatment of allergy.                                       |Journal of emergency nursing                               |pubmed         |2019-01-01T00:00:00.000Z|
+|A04AD  |DIPHENHYDRAMINE|3          |Diphenhydramine hydrochloride helps symptoms of ciguatera fish poisoning.                                                                                             |The Journal of pediatrics                                  |pubmed         |2019-01-02T00:00:00.000Z|
+|S03AA  |TETRACYCLINE   |4          |Tetracycline Resistance Patterns of Lactobacillus buchneri Group Strains.                                                                                             |Journal of food protection                                 |pubmed         |2020-01-01T00:00:00.000Z|
+|S03AA  |TETRACYCLINE   |5          |Appositional Tetracycline bone formation rates in the Beagle.                                                                                                         |American journal of veterinary research                    |pubmed         |2020-01-02T00:00:00.000Z|
+|S03AA  |TETRACYCLINE   |6          |Rapid reacquisition of contextual fear following extinction in mice: effects of amount of extinction, tetracycline acute ethanol withdrawal, and ethanol intoxication.|Psychopharmacology                                         |pubmed         |2020-01-01T00:00:00.000Z|
+|V03AB  |ETHANOL        |6          |Rapid reacquisition of contextual fear following extinction in mice: effects of amount of extinction, tetracycline acute ethanol withdrawal, and ethanol intoxication.|Psychopharmacology                                         |pubmed         |2020-01-01T00:00:00.000Z|
+|A03BA  |ATROPINE       |           |Comparison of pressure BETAMETHASONE release, phonophoresis and dry needling in treatment of latent myofascial trigger point of upper trapezius ATROPINE muscle.      |The journal of maternal-fetal & neonatal medicine          |pubmed         |2020-03-01T00:00:00.000Z|
+|A01AD  |EPINEPHRINE    |7          |The High Cost of Epinephrine Autoinjectors and Possible Alternatives.                                                                                                 |The journal of allergy and clinical immunology. In practice|pubmed         |2020-02-01T00:00:00.000Z|
+|A01AD  |EPINEPHRINE    |8          |Time to epinephrine treatment is associated with the risk of mortality in children who achieve sustained ROSC after traumatic out-of-hospital cardiac arrest.         |The journal of allergy and clinical immunology. In practice|pubmed         |2020-03-01T00:00:00.000Z|
+|6302001|ISOPRENALINE   |9          |Gold nanoparticles synthesized from Euphorbia fischeriana root by green route method alleviates the isoprenaline hydrochloride induced myocardial infarction in rats. |Journal of photochemistry and photobiology. B, Biology     |pubmed         |2020-01-01T00:00:00.000Z|
+|R01AD  |BETAMETHASONE  |10         |Clinical implications of umbilical artery Doppler changes after betamethasone administration                                                                          |The journal of maternal-fetal & neonatal medicine          |pubmed         |2020-01-01T00:00:00.000Z|
+|R01AD  |BETAMETHASONE  |11         |Effects of Topical Application of Betamethasone on Imiquimod-induced Psoriasis-like Skin Inflammation in Mice.                                                        |Journal of back and musculoskeletal rehabilitation         |pubmed         |2020-01-01T00:00:00.000Z|
+|R01AD  |BETAMETHASONE  |           |Comparison of pressure BETAMETHASONE release, phonophoresis and dry needling in treatment of latent myofascial trigger point of upper trapezius ATROPINE muscle.      |The journal of maternal-fetal & neonatal medicine          |pubmed         |2020-03-01T00:00:00.000Z|
+|A04AD  |DIPHENHYDRAMINE|NCT01967433|Use of Diphenhydramine as an Adjunctive Sedative for Colonoscopy in Patients Chronically on Opioids                                                                   |Journal of emergency nursing                               |clinical trials|2020-01-01T00:00:00.000Z|
+|A04AD  |DIPHENHYDRAMINE|NCT04189588|Phase 2 Study IV QUZYTTIR™ (Cetirizine Hydrochloride Injection) vs V Diphenhydramine                                                                                  |Journal of emergency nursing                               |clinical trials|2020-01-01T00:00:00.000Z|
+|A04AD  |DIPHENHYDRAMINE|NCT04237091|Feasibility of a Randomized Controlled Clinical Trial Comparing the Use of Cetirizine to Replace Diphenhydramine in the Prevention of Reactions Related to Paclitaxel |Journal of emergency nursing                               |clinical trials|2020-01-01T00:00:00.000Z|
+|S03AA  |TETRACYCLINE   |           |                                                                                                                                                                      |                                                           |clinical trials|                        |
+|V03AB  |ETHANOL        |           |                                                                                                                                                                      |                                                           |clinical trials|                        |
+|A03BA  |ATROPINE       |           |                                                                                                                                                                      |                                                           |clinical trials|                        |
+|A01AD  |EPINEPHRINE    |NCT04188184|Tranexamic Acid Versus Epinephrine During Exploratory Tympanotomy                                                                                                     |Journal of emergency nursing\xc3\x28                       |clinical trials|2020-04-27T00:00:00.000Z|
+|6302001|ISOPRENALINE   |           |                                                                                                                                                                      |                                                           |clinical trials|                        |
+|R01AD  |BETAMETHASONE  |NCT04153396|Preemptive Infiltration With Betamethasone and Ropivacaine for Postoperative Pain in Laminoplasty or \xc3\xb1 Laminectomy                                             |Hôpitaux Universitaires de Genève                          |clinical trials|2020-01-01T00:00:00.000Z|
+---
+
+
+Sample du fichier Json produit : 
+
+```json
+[
+  {
+    "atccode": "A04AD",
+    "drug": "DIPHENHYDRAMINE",
+    "id": "1",
+    "title": "A 44-year-old man with erythema of the face diphenhydramine, neck, and chest, weakness, and palpitations",
+    "journal": "Journal of emergency nursing",
+    "type": "pubmed",
+    "reference_date": "2019-01-01T00:00:00.000Z"
+  },
+  {
+    "atccode": "A04AD",
+    "drug": "DIPHENHYDRAMINE",
+    "id": "2",
+    "title": "An evaluation of benadryl, pyribenzamine, and other so-called diphenhydramine antihistaminic drugs in the treatment of allergy.",
+    "journal": "Journal of emergency nursing",
+    "type": "pubmed",
+    "reference_date": "2019-01-01T00:00:00.000Z"
+  }
+]
+```
+
+### Traitement ad-hoc 
+
+Résultat obtenu sur la base du sample fourni
+```json
+[
+  {
+    "journal": "Psychopharmacology",
+    "count": 2
+  }
+]
+```
 ### Pour aller plus loin
+Les choix de librairie, de framework et de design de pipeline ont été fait pour garantir : 
+* La simpliccité
+* La réutilisabilité et la maintenabilité
+* La scalabilité
+
+Si il fallait gérer desfichiers de plusieurs To ou des millions de fichiers par exemple, les évolutions seraient mineurs.
+En effet, nous avons choisi `Apache Spark comme moteur de calcul. 
+Le code présent permet aussi bien de traiter des workloads simples et léger mais aussi des workloads complexes avec des volumétries importantes.
+Les adaptations se feront au niveau de l'infrastructure sur laquelle ce code est exécuté (Taille du cluster, CPU alloué, RAM disponible)
+
+Pour les besoins de l'exercice nous avons introduit `pandas`( Permet de manipuler des Dataframes avec plus de flexibilité que avec les Dataframe Spark, mais est limité quand il s'agit d'exécuter des workloads importants).
+Cela a pour effet de ramener la donnée sur le driver. Ce qui est à éviter dans un contexte où les les tailles de données deviennent important.
+
+Ainsi en retirant les étapes de convertion vers pandas et en écrivant la donnée de façon distribuée, le présent code reste utilisable.
 
 ## II. SQL
 
