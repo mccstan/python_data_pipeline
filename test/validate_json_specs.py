@@ -10,7 +10,7 @@ class ValidateJsonSpecs(unittest.TestCase):
     INPUT_FILE = "/tmp/input_file"
     OUTPUT_FILE = "/tmp/output_file"
 
-    def test_validate_json(self):
+    def test_should_output_validate_json(self):
         self.generate_input()
         exit_code = self.run_app()
         self.assertEqual(exit_code, 0)
@@ -53,3 +53,7 @@ class ValidateJsonSpecs(unittest.TestCase):
     @classmethod
     def tearDownClass(cls):
         cls.spark.stop()
+
+
+if __name__ == '__main__':
+    unittest.main()
