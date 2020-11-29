@@ -21,7 +21,7 @@ Pourquoi ce choix de modélisation ?
 * La simplicité : Notre modélisation est simple à cerner et permet rapidement de jouer avec la données et produire des insights.
 * La performance : Il y'a toujours des compromis dans les choix de modélisation. 
 Cela dit, on choisi la modélisation qui permet d'optimisier les requêtes/traitements qui se feront sur la base de cette modélisation.
-Dans le cas présent, le traitement demandé dans la partie ad-
+Dans le cas présent, le traitement demandé dans la partie ad-hoc s'y prête bien. Cette modélisation permet de répondre à la plus part des cas d'utilisation.
 
 ### Data pipeline
 
