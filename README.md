@@ -98,15 +98,15 @@ Les choix de librairie, de framework et de design de pipeline ont été fait pou
 * La réutilisabilité et la maintenabilité
 * La scalabilité
 
-Si il fallait gérer desfichiers de plusieurs To ou des millions de fichiers par exemple, les évolutions seraient mineurs.
-En effet, nous avons choisi `Apache Spark comme moteur de calcul. 
-Le code présent permet aussi bien de traiter des workloads simples et léger mais aussi des workloads complexes avec des volumétries importantes.
+Si il fallait gérer des fichiers de plusieurs To ou des millions de fichiers par exemple, les évolutions seraient mineurs.
+En effet, nous avons choisi `Apache Spark` comme moteur de calcul. 
+Ainsi le code présent permet aussi bien de traiter des workloads simples et léger mais aussi des workloads complexes avec des volumétries importantes.
 Les adaptations se feront au niveau de l'infrastructure sur laquelle ce code est exécuté (Taille du cluster, CPU alloué, RAM disponible)
 
 Pour les besoins de l'exercice nous avons introduit `pandas`( Permet de manipuler des Dataframes avec plus de flexibilité que avec les Dataframe Spark, mais est limité quand il s'agit d'exécuter des workloads importants).
 Cela a pour effet de ramener la donnée sur le driver. Ce qui est à éviter dans un contexte où les les tailles de données deviennent important.
 
-Ainsi en retirant les étapes de convertion vers pandas et en écrivant la donnée de façon distribuée, le présent code reste utilisable.
+Ainsi en `retirant les étapes de convertion vers pandas et en écrivant la donnée de façon distribuée`, le présent code reste utilisable.
 
 ## II. SQL
 
